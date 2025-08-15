@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+<style>
+  body {
+    margin: 0;
+    background: #1c1c1c;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: Arial, sans-serif;
+  }
+  .calc {
+    background: #111417;
+    padding: 15px;
+    border-radius: 15px;
+    display: grid;
+    grid-template-columns: repeat(6, 70px);
+    gap: 8px;
+  }
+  input {
+    grid-column: 1 / -1;
+    height: 60px;
+    font-size: 28px;
+    text-align: right;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 10px;
+    background: #0b0d10;
+    color: #fff;
+  }
+  button {
+    height: 60px;
+    border: none;
+    border-radius: 10px;
+    font-size: 18px;
+    cursor: pointer;
+    color: #fff;
+    background: #3e4248;
+  }
+  .fn { background: #575b60; }
+  .op { background: #f2a000; color: #ffffff; font-weight: bold; }
+  .eq { background: #b13e3e; }
+  .ghost { background: #34383d; cursor: default; }
+  .eq.span-2 { grid-row: span 2; }
+</style>
+</head>
+<body>
+<div class="calc">
+  <input id="disp" disabled>
+
+  <button class="fn" onclick="add('(')">(</button>
+  <button class="fn" onclick="add(')')">)</button>
+  <button class="op" onclick="clearDisp()">AC</button>
+  <button class="op" onclick="delChar()">DEL</button>
+  <button class="op" onclick="add('/')">/</button>
+  <button class="op" onclick="add('*')">*</button>
+
+  <button class="fn" onclick="add('**2')">^2</button>
+  <button class="fn" onclick="add('**3')">^3</button>
+  <button onclick="add('7')">7</button>
+  <button onclick="add('8')">8</button>
+  <button onclick="add('9')">9</button>
+  <button class="op" onclick="add('-')">-</button>
+
+  <button class="fn" onclick="add('Math.sqrt(')">√</button>
+  <button class="fn" onclick="add('Math.cbrt(')">∛</button>
+  <button onclick="add('6')">6</button>
+  <button onclick="add('5')">5</button>
+  <button onclick="add('4')">4</button>
+  <button class="op" onclick="add('+')">+</button>
+
+  <button class="fn" onclick="add('factorial(')">!</button>
+  <button class="fn" onclick="add('Math.sin(')">sin(</button>
+  <button onclick="add('1')">1</button>
+  <button onclick="add('2')">2</button>
+  <button onclick="add('3')">3</button>
+  <button style="height: 126px;" class="eq span-2" onclick="calc()">=</button>
+
+  <button class="fn" onclick="add('Math.cos(')">cos(</button>
+  <button class="fn" onclick="add('Math.tan(')">tan(</button>
+  <button style="width: 148px;" onclick="add('0')">0</button>
+
+  <button style="width: 70px; margin-left: 79px;" onclick="add('.')">.</button>
+</div>
+
+<script>
+let disp = document.getElementById("disp");
+
+// Qiymat qo'shish
+function add(val) {
+  disp.value += val;
+}
+
+// Ekranni tozalash
+function clearDisp() {
+  disp.value = "";
+}
+
+// Oxirgi belgini o'chirish
+function delChar() {
+  disp.value = disp.value.slice(0, -1);
+}
+
+// Faktorial funksiyasi
+function factorial(n) {
+  n = Number(n);
+  if (n < 0 || !Number.isInteger(n)) return NaN;
+  let res = 1;
+  for (let i = 1; i <= n; i++) res *= i;
+  return res;
+}
+
+// Hisoblash
+function calc() {
+  try {
+    // Eval ichida factorial ishlashi uchun global scopega chiqaramiz
+    disp.value = eval(disp.value);
+  } catch {
+    disp.value = "Error";
+  }
+}
+</script>
+</body>
+</html>
